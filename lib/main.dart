@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:sleepsoundscapeapp/view/sound_selection_screen.dart';
+import 'package:sleepsoundscapeapp/view/parent_screens/parent_screens.dart';
+import 'package:sleepsoundscapeapp/view/sound_selection_screen/sound_selection_screen.dart';
+import 'package:sleepsoundscapeapp/view_model/parent_screen_provider.dart';
 import 'package:sleepsoundscapeapp/view_model/sound_selection_provider.dart';
 
 void main() async {
@@ -32,7 +34,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<SoundSelectionProvider>(
           create: (_)=> SoundSelectionProvider(),
-        )
+        ),
+        ChangeNotifierProvider<ParentScreensProvider>(
+          create: (_)=> ParentScreensProvider(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(deviceWidth, deviceHeight),
@@ -41,6 +46,25 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             theme: ThemeData(
+              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                backgroundColor: Color(0xFF09001F),
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Colors.grey,
+                showUnselectedLabels: true,
+                showSelectedLabels: true,// Dark background color
+                type: BottomNavigationBarType.fixed,
+               selectedLabelStyle: TextStyle(
+                   fontSize: 11,
+                   fontWeight: FontWeight.w500,
+                   color: Colors.white,),
+                unselectedLabelStyle: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey, // Explicitly set grey for unselected labels
+              ),
+               // selectedItemColor: Colors.white,
+                //unselectedItemColor: Colors.grey,
+              ),
               //setting-up elevatedButtonTheme globally according to figma design
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ButtonStyle(
@@ -140,7 +164,7 @@ class MyApp extends StatelessWidget {
                 ),
             ),
             debugShowCheckedModeBanner: false,
-            home: const SoundSelectionScreen(),
+            home:  const ParentScreens(),
           );
         },
       ),
