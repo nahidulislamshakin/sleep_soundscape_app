@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepsoundscapeapp/view/parent_screens/parent_screens.dart';
 import 'package:sleepsoundscapeapp/view/sound_selection_screen/sound_selection_screen.dart';
+import 'package:sleepsoundscapeapp/view_model/mix_sound_provider.dart';
 import 'package:sleepsoundscapeapp/view_model/parent_screen_provider.dart';
 import 'package:sleepsoundscapeapp/view_model/sound_selection_provider.dart';
+import 'package:sleepsoundscapeapp/view_model/volume_slider_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +40,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ParentScreensProvider>(
           create: (_)=> ParentScreensProvider(),
         ),
+        ChangeNotifierProvider<VolumeSliderProvider>(
+          create: (_)=> VolumeSliderProvider(),
+        ),
+        ChangeNotifierProvider<SoundMixerProvider>(
+          create: (_)=> SoundMixerProvider(),
+        ),
+
+
+
       ],
       child: ScreenUtilInit(
         designSize: const Size(deviceWidth, deviceHeight),
