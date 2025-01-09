@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sleepsoundscapeapp/utils/buttons/custom_elevated_button.dart';
 import 'package:sleepsoundscapeapp/view/sound_selection_screen/sound_selection_screen.dart';
 
 class SoundSelectionProvider with ChangeNotifier{
@@ -316,6 +317,7 @@ bool get isAlreadySaved => _isAlreadySaved;
             "name":_gridButtonList[index]["label"],
             "categoryName": _gridButtonList[index]["categoryName"],
             "iconPath": _gridButtonList[index]["iconPath"],
+            "volumeValue":50.0
           }
 
       );
@@ -336,6 +338,14 @@ bool get isAlreadySaved => _isAlreadySaved;
 
     notifyListeners();
   }
+
+void updateSliderValue(int id, double newValue) {
+  final index = _wantToSaveMusic.indexWhere((music) => music["id"] == id);
+  if (index != -1) {
+    _wantToSaveMusic[index]["volumeValue"] = newValue;
+    notifyListeners();
+  }
+}
 
   void onMixerItemRemove(int id){
     _wantToSaveMusic.removeWhere((element)=>
@@ -397,11 +407,14 @@ bool get isAlreadySaved => _isAlreadySaved;
   bool get isSavePressed => _isSavePressed;
   TextEditingController _mixerNameController = TextEditingController();
   void onSaveMusicPressed(BuildContext context){
+
+    final formKey = GlobalKey<FormState>();
+
     if (_wantToSaveMusic.isNotEmpty) {
       showModalBottomSheet(
           context: context,
-          backgroundColor: const Color(0xFF09001F), // Match your dark background color
-          shape: RoundedRectangleBorder(
+          backgroundColor: Colors.transparent, // Match your dark background color
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(20),
             ),
@@ -420,82 +433,172 @@ bool get isAlreadySaved => _isAlreadySaved;
                   height: 300,
                   margin: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom, // Handle keyboard
-                    left: 16,
-                    right: 16,
+                    left: 0,
+                    right: 0,
                     top: 20,
                   ),
                   decoration: BoxDecoration(
-                    color: Color(0xFF160045),
+                    color: const Color(0xFF160045),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: SingleChildScrollView(
                 //    controller: scrollController,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(height: 5.h,),
-                        Center(
-                          child: Container(
-                            width: 40.w,
-                            height: 4.h,
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: 5.h,),
+                          Center(
+                            child: Container(
+                              width: 40.w,
+                              height: 4.h,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.3), // Adjust color to match your design
+                                borderRadius: BorderRadius.circular(2.r),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 15.h,),
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Save this ",
+                                  style: Theme.of(context).textTheme.titleMedium?.
+                                  copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                                ),
+                                TextSpan(
+                                  text: "mix",
+                                  style:  Theme.of(context).textTheme.titleMedium?.
+                                  copyWith(color: Colors.deepPurple.shade400, fontWeight: FontWeight.w600),
+
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+
+                          SizedBox(height: 20.h,),
+                          Container(
+                            height: 50,
+                            width: double.infinity,
+                            padding:  EdgeInsets.only(left: 10.w,right: 10.w),
+                            margin:  EdgeInsets.only(left: 10.w,right: 10.w),
                             decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.3), // Adjust color to match your design
-                              borderRadius: BorderRadius.circular(2.r),
+                              borderRadius: BorderRadius.circular(15),
+                              color: const Color(0xFF160045),
+                              border: Border.all(
+                                color: Colors.deepPurple,
+                                width: 1
+                              )
+                            ),
+                            child: TextFormField(
+
+                              controller: _mixerNameController,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              onTapOutside: (_){FocusScope.of(context).unfocus();},
+                              validator: (value){
+                                if(value.toString().isEmpty){
+                                  return "Please write mix name";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                               fillColor: const Color(0xFF160045),
+                                filled: true,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                // const OutlineInputBorder(
+                                //   borderSide: BorderSide(
+                                //     color: Colors.deepPurple,
+                                //     width: 1
+                                //   )
+                                // ),
+                                  errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red.shade300),
+                                border: InputBorder.none,
+                                // OutlineInputBorder(
+                                //   borderRadius: BorderRadius.circular(15)
+                                // ),
+                                labelText: "Write mix name",
+                                labelStyle: Theme.of(context).textTheme.bodyMedium?.
+                                  copyWith(color: Colors.grey, fontWeight: FontWeight.w500)
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(height: 25.h,),
+                          Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 8.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                      ),
+                                      color: Colors.transparent,
+                                      // gradient:  LinearGradient(
+                                      //   colors: pressed == true ? [const Color(0xFF42098F), const Color(0xFFB53FFE)] : [const Color(0xFF09001F),const Color(0xFF09001F),],
+                                      //   begin: Alignment.topLeft,
+                                      //   end: Alignment.bottomRight,
+                                      // ),
+                                    ),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.transparent,
+                                      ),
+                                        onPressed: (){Navigator.pop(context);},
+                                        child: Text("Cancel",style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10.w,),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                      ),
+                                      //color: Colors.purple,
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF42098F),
+                                          Color(0xFF793BC4)
+                                        ],
+                                        begin: Alignment.bottomLeft,
+                                        end: Alignment.topRight,
+                                      ),
+                                    ),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.transparent,
+                                      ),
+                                      onPressed: (){
+                                        if(formKey.currentState!.validate()){
+                                          savedMusicList.add( {
+                                            "playListName" : _mixerNameController.text,
+                                            "musicList" : _wantToSaveMusic,
+                                          });
+                                          debugPrint("\nsuccessful\n$savedMusicList\n");
 
-                        SizedBox(height: 15.h,),
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Save this ",
-                                style: Theme.of(context).textTheme.titleMedium?.
-                                copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                              ),
-                              TextSpan(
-                                text: "mix",
-                                style:  Theme.of(context).textTheme.titleMedium?.
-                                copyWith(color: Colors.deepPurple.shade400, fontWeight: FontWeight.w600),
+                                          Navigator.pop(context);
+                                        }
 
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-
-                        SizedBox(height: 20.h,),
-                        Container(
-                          height: 50,
-                          width: double.infinity,
-                          padding: EdgeInsets.only(left: 10,right: 10),
-                          // decoration: BoxDecoration(
-                          //   color: Color(0xFF020725)
-                          // ),
-                          child: TextFormField(
-                            controller: _mixerNameController,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            decoration: InputDecoration(
-                             fillColor: Color(0xFF160045),
-                              filled: true,
-
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.deepPurple,
-                                  width: 1
-                                )
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15)
-                              ),
-                              labelText: "Write mix name",
-                              labelStyle: Theme.of(context).textTheme.bodyMedium?.
-                                copyWith(color: Colors.grey, fontWeight: FontWeight.w500)
+                                      },
+                                      child: Text("Save",style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -503,14 +606,13 @@ bool get isAlreadySaved => _isAlreadySaved;
             // );
           });
 
-      savedMusicList = _wantToSaveMusic;
+
 
       // Add the selected music IDs to savedMusicList as a list
       // savedMusicList.add({
       //   "id": List<int>.from(_wantToSaveMusic), // Ensure a new list is added
       // });
       debugPrint("Saved successfully: $savedMusicList");
-      _isAlreadySaved = true;
       notifyListeners();
     } else {
       debugPrint("No music selected to save.");

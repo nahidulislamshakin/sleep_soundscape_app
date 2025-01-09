@@ -150,36 +150,52 @@ class MixControlScreen extends StatelessWidget {
                         itemCount: soundSelectionProvider.wantToSaveMusic.length,
                         itemBuilder: (context, index){
                           final music = soundSelectionProvider.wantToSaveMusic[index];
-                          return   Padding(
+                          return   Container(
                             padding:  EdgeInsets.symmetric(horizontal: 30.w),
+                            margin:  EdgeInsets.symmetric(vertical: 5.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Colors.grey.withOpacity(0.2),
+                              )
+                            ),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Expanded(
                                   child: VolumeSlider(
-                                    color: Color(0xFF5C19B7),
-                                   // icon: Icons.keyboard_arrow_right_outlined,
+                                    color: Colors.deepPurple.shade700,
+                                    sliderValue: music["volumeValue"],
+                                    onChanged: (value) {
+                                      // Update the slider value in the provider
+                                      soundSelectionProvider.updateSliderValue(music["id"], value);
+                                    },
+                                    // icon: Icons.keyboard_arrow_right_outlined,
                                     soundName: music["name"],),
                                 ),
-                                SizedBox(width: 5.w,),
-                                GestureDetector(
-                                  onTap:(){
-                                    if(soundSelectionProvider.wantToSaveMusic.length == 1){
-                                      soundSelectionProvider.onAllMixerItemRemove();
-                                      soundSelectionProvider.onAppearMusicControllerButtons();
-                                      Navigator.pop(context, PageTransition(type: PageTransitionType.fade,duration: const Duration(milliseconds: 600),
-                                        child: const SoundSelectionScreen(),),);
-                                    }
+                                SizedBox(width: 7.w,),
+                                Padding(
+                                  padding:  EdgeInsets.symmetric(vertical: 8.h),
+                                  child: GestureDetector(
+                                    onTap:(){
+                                      if(soundSelectionProvider.wantToSaveMusic.length == 1){
+                                        soundSelectionProvider.onAllMixerItemRemove();
+                                        soundSelectionProvider.onAppearMusicControllerButtons();
+                                        Navigator.pop(context, PageTransition(type: PageTransitionType.fade,duration: const Duration(milliseconds: 600),
+                                          child: const SoundSelectionScreen(),),);
+                                      }
 
-                                    soundSelectionProvider.onMixerItemRemove(music["id"]);
-                                  },
-                                  child: Container(
-                                    width: 40.w,
-                                    height: 45.h,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF28046B),
-                                      borderRadius: BorderRadius.circular(15),
+                                      soundSelectionProvider.onMixerItemRemove(music["id"]);
+                                    },
+                                    child: Container(
+                                      width: 40.w,
+                                      height: 45.h,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF28046B),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Image.asset('assets/icons/close.png'),
                                     ),
-                                    child: Image.asset('assets/icons/close.png'),
                                   ),
                                 )
                               ],

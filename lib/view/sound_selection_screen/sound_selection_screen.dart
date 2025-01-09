@@ -262,137 +262,229 @@ class SoundSelectionScreen extends StatelessWidget {
                               SizedBox(
                                 height: 10.h,
                               ),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    ...soundSelectionProvider.categoryButtonList
-                                        .asMap()
-                                        .entries
-                                        .map((entry) {
-                                      int index = entry
-                                          .key; // Get the index of the current element
-                                      var button =
-                                          entry.value; // Get the button object
-                                      int i = -1;
-                                      //  i++;
-                                      //  debugPrint("\ni : $i\n");
-                                      return Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
-                                          CustomElevatedButton(
-                                            button: ElevatedButton(
-                                              onPressed: () {
-                                                soundSelectionProvider
-                                                    .onFilterButtonPressed(
-                                                        index);
-                                              },
-                                              child: Text(
-                                                button["categoryName"],
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                              ),
+                              if (soundSelectionProvider.soundTabPressed ==
+                                  true)
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      ...soundSelectionProvider
+                                          .categoryButtonList
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        int index = entry
+                                            .key; // Get the index of the current element
+                                        var button = entry
+                                            .value; // Get the button object
+                                        int i = -1;
+                                        //  i++;
+                                        //  debugPrint("\ni : $i\n");
+                                        return Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 10.w,
                                             ),
-                                            pressed: button["pressed"],
-                                          ).customElevatedButton(context),
-                                          SizedBox(
-                                            width: 20.w,
-                                          ),
-                                        ],
-                                      );
-                                    }).toList(),
-                                  ],
+                                            CustomElevatedButton(
+                                              button: ElevatedButton(
+                                                onPressed: () {
+                                                  soundSelectionProvider
+                                                      .onFilterButtonPressed(
+                                                          index);
+                                                },
+                                                child: Text(
+                                                  button["categoryName"],
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium,
+                                                ),
+                                              ),
+                                              pressed: button["pressed"],
+                                            ).customElevatedButton(context),
+                                            SizedBox(
+                                              width: 20.w,
+                                            ),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    ],
+                                  ),
                                 ),
-                              ),
                               SizedBox(
                                 height: 10.h,
                               ),
-                              Expanded(
-                                child: GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4,
-                                    crossAxisSpacing: 5.w,
-                                    mainAxisSpacing: 15.h,
-                                  ),
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: soundSelectionProvider
-                                      .filteredGridButtonList.length,
-                                  itemBuilder: (context, index) {
-                                    final gridButton = soundSelectionProvider
-                                        .filteredGridButtonList[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        // debugPrint("\nindex : $index\n");
-                                        soundSelectionProvider
-                                            .onGridButtonPressed(index);
-                                        gridButton["onTap"];
-                                        soundSelectionProvider
-                                            .onAppearMusicControllerButtons();
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            width: 72.w,
-                                            height: 72.h,
-                                            decoration: BoxDecoration(
-                                              gradient: gridButton[
-                                                          "isPressed"] ==
-                                                      true
-                                                  ? const LinearGradient(
-                                                      colors: [
-                                                        Color(0xFF28046B),
-                                                        Color(0xFF793BC4)
-                                                      ],
-                                                      begin:
-                                                          Alignment.bottomLeft,
-                                                      end: Alignment.topRight,
-                                                    )
-                                                  : null,
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              border: Border.all(
-                                                color: Colors.grey
-                                                    .withOpacity(0.3),
-                                                width: 1,
-                                              ),
-                                              //image: DecorationImage(image: AssetImage(gridButton["iconPath"],),)
+                              soundSelectionProvider.soundTabPressed == true
+                                  ? Expanded(
+                                      child: GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 4,
+                                          crossAxisSpacing: 5.w,
+                                          mainAxisSpacing: 15.h,
+                                        ),
+                                        physics: const BouncingScrollPhysics(),
+                                        itemCount: soundSelectionProvider
+                                            .filteredGridButtonList.length,
+                                        itemBuilder: (context, index) {
+                                          final gridButton =
+                                              soundSelectionProvider
+                                                      .filteredGridButtonList[
+                                                  index];
+                                          return GestureDetector(
+                                            onTap: () {
+                                              // debugPrint("\nindex : $index\n");
+                                              soundSelectionProvider
+                                                  .onGridButtonPressed(index);
+                                              gridButton["onTap"];
+                                              soundSelectionProvider
+                                                  .onAppearMusicControllerButtons();
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 72.w,
+                                                  height: 72.h,
+                                                  decoration: BoxDecoration(
+                                                    gradient: gridButton[
+                                                                "isPressed"] ==
+                                                            true
+                                                        ? const LinearGradient(
+                                                            colors: [
+                                                              Color(0xFF28046B),
+                                                              Color(0xFF793BC4)
+                                                            ],
+                                                            begin: Alignment
+                                                                .bottomLeft,
+                                                            end: Alignment
+                                                                .topRight,
+                                                          )
+                                                        : null,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                    border: Border.all(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.3),
+                                                      width: 1,
+                                                    ),
+                                                    //image: DecorationImage(image: AssetImage(gridButton["iconPath"],),)
+                                                  ),
+                                                  child: Image.asset(
+                                                    gridButton["iconPath"],
+                                                    color: gridButton[
+                                                                "isPressed"] ==
+                                                            true
+                                                        ? Colors.white
+                                                        : Colors.grey
+                                                            .withOpacity(0.5),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 3.h,
+                                                ),
+                                                Text(
+                                                  gridButton["label"],
+                                                  style:
+                                                      gridButton["isPressed"] ==
+                                                              true
+                                                          ? Theme.of(context)
+                                                              .textTheme
+                                                              .labelLarge
+                                                              ?.copyWith(
+                                                                  color: Colors
+                                                                      .white)
+                                                          : Theme.of(context)
+                                                              .textTheme
+                                                              .labelLarge,
+                                                )
+                                              ],
                                             ),
-                                            child: Image.asset(
-                                              gridButton["iconPath"],
-                                              color: gridButton["isPressed"] ==
-                                                      true
-                                                  ? Colors.white
-                                                  : Colors.grey
-                                                      .withOpacity(0.5),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 3.h,
-                                          ),
-                                          Text(
-                                            gridButton["label"],
-                                            style:
-                                                gridButton["isPressed"] == true
-                                                    ? Theme.of(context)
-                                                        .textTheme
-                                                        .labelLarge
-                                                        ?.copyWith(
-                                                            color: Colors.white)
-                                                    : Theme.of(context)
-                                                        .textTheme
-                                                        .labelLarge,
-                                          )
-                                        ],
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                    )
+                                  : Expanded(
+                                      child: GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 5.w,
+                                          mainAxisSpacing: 15.h,
+                                        ),
+                                        physics: const BouncingScrollPhysics(),
+                                        itemCount: soundSelectionProvider
+                                            .savedMusicList.length,
+                                        itemBuilder: (context, index) {
+                                          final gridButton =
+                                              soundSelectionProvider
+                                                      .savedMusicList[
+                                                  index];
+                                          // final childGrid = gridButton["musicList"];
+                                          // final childGridLength = childGrid.length;
+                                          return Container(
+                                            width: 165.w,
+                                            height: 138.h,
+                                            margin: EdgeInsets.all(10.r),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF212540),
+                                              borderRadius: BorderRadius.circular(30)
+                                            ),
+                                            child: Padding(
+                                              padding:  EdgeInsets.only(left : 15.w,
+                                              right: 10.w, bottom: 15.h, top: 5.h,),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(gridButton["playListName"],
+                                                    style: Theme.of(context).textTheme.titleMedium ?.
+                                                      copyWith(fontWeight: FontWeight.w500,
+                                                    color: Colors.white),),
+                                                    SizedBox(height: 2.h,),
+                                                    Text(gridButton["musicList"][0]["categoryName"],
+                                                      style: Theme.of(context).textTheme.bodySmall ?.
+                                                      copyWith(fontWeight: FontWeight.w500,
+                                                          color: Colors.grey),),
+                                                  ],
+                                                ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                    },
+                                                    child: Container(
+                                                        width: 42.w,
+                                                        height: 42.h,
+                                                        decoration: BoxDecoration(
+                                                          gradient: const LinearGradient(
+                                                            colors: [
+                                                              Color(0xFF42098F),
+                                                              Color(0xFF793BC4)
+                                                            ],
+                                                            begin: Alignment.bottomLeft,
+                                                            end: Alignment.topRight,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(15),
+                                                        ),
+                                                        child:
+                                                          Image.asset(
+                                                          'assets/icons/play.png',
+                                                        ),
+                                                    ),
+                                                  ),
+
+                                              ],)
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                             ],
                           )),
                     )
@@ -400,7 +492,7 @@ class SoundSelectionScreen extends StatelessWidget {
                 ),
                 if (soundSelectionProvider
                         .isAppearMusicControllerButtons.value ==
-                    true)
+                    true && soundSelectionProvider.soundTabPressed == true)
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -467,9 +559,13 @@ class SoundSelectionScreen extends StatelessWidget {
                                 //SizedBox(width: 5.w,),
                                 IconButton(
                                   onPressed: () {
-                                    Navigator.push(context, PageTransition(
-                                        child:  const MixControlScreen(),duration: const Duration(milliseconds: 300),
-                                        type: PageTransitionType.fade),
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          child: const MixControlScreen(),
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          type: PageTransitionType.fade),
                                     );
                                   },
                                   icon: Image.asset('assets/icons/mixer.png'),

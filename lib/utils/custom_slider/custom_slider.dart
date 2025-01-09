@@ -9,14 +9,16 @@ import 'custom_track_shape.dart';
 class VolumeSlider extends StatelessWidget {
   final String soundName;
   final Color color;
- // final IconData icon;
+  final double sliderValue;
+  final ValueChanged<double> onChanged;
 
-  const VolumeSlider(
-      {super.key,
-      required this.soundName,
-      required this.color,
-    //  required this.icon
-      });
+  const VolumeSlider({
+    super.key,
+    required this.soundName,
+    required this.color,
+    required this.sliderValue,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,45 +27,48 @@ class VolumeSlider extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            alignment: Alignment.centerLeft,
-              children: [
+          // Stack(
+          //   alignment: Alignment.centerLeft,
+          //     children: [
+          Text(soundName,
+            style: Theme.of(context).textTheme.bodyMedium?.
+            copyWith(fontWeight: FontWeight.w500,color: Colors.white),),
+                SizedBox(height: 10.h,),
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
                     trackHeight: 35,
-                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 22,elevation: 10),
+                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 22,elevation: 10),
                     // CustomSliderThumbCircle(
                     //   thumbRadius: 25,
                     //   thumbIcon: icon,
                     // ),
 
                     trackShape: CustomTrackShape(),
-                    activeTrackColor: color,
-                    inactiveTrackColor: Color(0xFF28046B),
-                    overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
+                    activeTrackColor: Color(0xFF5C19B7),
+                    inactiveTrackColor: const Color(0xFF28046B),
+                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
                     thumbColor: color,
                   ),
                   child: Slider(
-                    value: sliderProvider.sliderValue,
+                    value: sliderValue,
                     max: 100,
                     min: 0,
-                    onChanged: (value){
-                      sliderProvider.onChanges(value);
-                    },
+                    onChanged: onChanged,
                   ),
                 ),
-                Positioned(
-                  left: 20,
-                  //(sliderProvider.sliderValue / 100) *
-                     // MediaQuery.of(context).size.width *
-                   //   0.65, // Adjust based on slider width
-                  child: Text(soundName,
-                  style: Theme.of(context).textTheme.bodyMedium?.
-                    copyWith(fontWeight: FontWeight.w500,color: Colors.white),),
-                )
-              ],
-          )
+                // Positioned(
+                //   left: 20,
+                //   //(sliderProvider.sliderValue / 100) *
+                //      // MediaQuery.of(context).size.width *
+                //    //   0.65, // Adjust based on slider width
+                //   child: Text(soundName,
+                //   style: Theme.of(context).textTheme.bodyMedium?.
+                //     copyWith(fontWeight: FontWeight.w500,color: Colors.white),),
+                // )
+          //     ],
+          // )
         ],
       ),
     );
