@@ -469,7 +469,7 @@ class SoundSelectionScreen extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.push(context, PageTransition(
                                         child:  const MixControlScreen(),duration: const Duration(milliseconds: 300),
-                                        type: PageTransitionType.bottomToTop),
+                                        type: PageTransitionType.fade),
                                     );
                                   },
                                   icon: Image.asset('assets/icons/mixer.png'),

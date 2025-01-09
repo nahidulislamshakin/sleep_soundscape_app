@@ -408,27 +408,28 @@ bool get isAlreadySaved => _isAlreadySaved;
           ),
           isScrollControlled: true, // Allows the modal to resize if the keyboard pops up
           builder: ( context) {
-            return  DraggableScrollableSheet(
-              expand: false,
-                initialChildSize: 0.4, // Adjust the initial height
-                maxChildSize: 0.8, // Maximum height
-                minChildSize: 0.2, // Minimum height
-              builder: (context,scrollController) {
+            // return
+            //   DraggableScrollableSheet(
+            //   expand: false,
+            //     initialChildSize: 0.4, // Adjust the initial height
+            //     maxChildSize: 0.8, // Maximum height
+            //     minChildSize: 0.2, // Minimum height
+            //   builder: (context,scrollController) {
                 return Container(
                   width: double.infinity,
                   height: 300,
-                  padding: EdgeInsets.only(
+                  margin: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom, // Handle keyboard
                     left: 16,
                     right: 16,
                     top: 20,
                   ),
                   decoration: BoxDecoration(
-                    color: Color(0xFF020725),
+                    color: Color(0xFF160045),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: SingleChildScrollView(
-                    controller: scrollController,
+                //    controller: scrollController,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -466,7 +467,7 @@ bool get isAlreadySaved => _isAlreadySaved;
 
                         SizedBox(height: 20.h,),
                         Container(
-                          height: 40,
+                          height: 50,
                           width: double.infinity,
                           padding: EdgeInsets.only(left: 10,right: 10),
                           // decoration: BoxDecoration(
@@ -474,9 +475,9 @@ bool get isAlreadySaved => _isAlreadySaved;
                           // ),
                           child: TextFormField(
                             controller: _mixerNameController,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.bodyMedium,
                             decoration: InputDecoration(
-                             fillColor: Colors.grey,
+                             fillColor: Color(0xFF160045),
                               filled: true,
 
                               enabledBorder: OutlineInputBorder(
@@ -490,7 +491,7 @@ bool get isAlreadySaved => _isAlreadySaved;
                               ),
                               labelText: "Write mix name",
                               labelStyle: Theme.of(context).textTheme.bodyMedium?.
-                                copyWith(color: Colors.black54, fontWeight: FontWeight.w500)
+                                copyWith(color: Colors.grey, fontWeight: FontWeight.w500)
                             ),
                           ),
                         )
@@ -498,8 +499,8 @@ bool get isAlreadySaved => _isAlreadySaved;
                     ),
                   ),
                 );
-              }
-            );
+            //   }
+            // );
           });
 
       savedMusicList = _wantToSaveMusic;

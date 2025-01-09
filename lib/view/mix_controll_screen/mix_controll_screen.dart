@@ -166,7 +166,7 @@ class MixControlScreen extends StatelessWidget {
                                     if(soundSelectionProvider.wantToSaveMusic.length == 1){
                                       soundSelectionProvider.onAllMixerItemRemove();
                                       soundSelectionProvider.onAppearMusicControllerButtons();
-                                      Navigator.pop(context, PageTransition(type: PageTransitionType.topToBottom,duration: const Duration(milliseconds: 600),
+                                      Navigator.pop(context, PageTransition(type: PageTransitionType.fade,duration: const Duration(milliseconds: 600),
                                         child: const SoundSelectionScreen(),),);
                                     }
 
